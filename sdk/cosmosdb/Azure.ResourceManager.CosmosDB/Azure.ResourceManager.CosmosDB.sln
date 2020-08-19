@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.ResourceManager.CosmosDB", "src\Azure.ResourceManager.CosmosDB.csproj", "{4D24B248-31FC-44E8-B4D6-3440F7970E8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.ResourceManager.CosmosDB.Tests", "tests\Azure.ResourceManager.CosmosDB.Tests.csproj", "{C42BCC71-E67C-46E8-A8F5-5869C470DAEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D24B248-31FC-44E8-B4D6-3440F7970E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D24B248-31FC-44E8-B4D6-3440F7970E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D24B248-31FC-44E8-B4D6-3440F7970E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D24B248-31FC-44E8-B4D6-3440F7970E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C42BCC71-E67C-46E8-A8F5-5869C470DAEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C42BCC71-E67C-46E8-A8F5-5869C470DAEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C42BCC71-E67C-46E8-A8F5-5869C470DAEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C42BCC71-E67C-46E8-A8F5-5869C470DAEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D3DB73F-831C-46AB-B677-77DE2A9EB045}
+	EndGlobalSection
+EndGlobal
