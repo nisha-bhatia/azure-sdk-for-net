@@ -12,6 +12,7 @@ using System.Net;
 using Moq;
 using System.Runtime.CompilerServices;
 using Azure.ResourceManager.CosmosDB.Models;
+using Azure.Core.TestFramework;
 
 namespace Azure.ResourceManager.CosmosDB.Tests
 {
@@ -40,26 +41,13 @@ namespace Azure.ResourceManager.CosmosDB.Tests
         [TestCase, Order(1)]
         public async Task ListOperationsTest()
         {
-            var testWorkspace = new NotebookWorkspaceName("testWorkspaceName");
-            var armProxy = new ARMProxyResource();
-            var response = await NotebookWorkspacesOperations.StartCreateOrUpdateAsync(resourceName, "testAccountName", testWorkspace, armProxy);
-            Assert.IsNotNull(response);
-            //var handler2 = new RecordedDelegatingHandler { StatusCodeToReturn = HttpStatusCode.OK };
-            //var mockContext = new Mock<PartitionContext>("65");
-            //using (MockContext context = MockContext.Start(this.GetType()))
-            //{
-            // Create client
-            //var context = new MockContext<>();
-            //// var clientMock = new Mock<IDurableClient>(); // can't do this IDurableClient is from a Track1 library!!
-            //CosmosDBManagementClient cosmosDBMgmtClient = CosmosDBTestUtilities.GetCosmosDBClient(context, handler);
+            var cosmosDBClient = GetCosmosDBManagementClient();
+            // Get operations
+            var operations = cosmosDBClient.Operations.ListAsync();
 
-            //// Get operations
-            //var operations = cosmosDBMgmtClient.Operations.List();
-
-            //// Verify operations are returned
-            //Assert.NotNull(operations);
-            //Assert.IsNotEmpty(operations);
-            //}
+            // Verify operations are returned
+            Assert.NotNull(operations);
+            Assert.IsNotEmpty(await operations.ToEnumerableAsync());
         }
         //[TestCase]
         //public async Task SampleTest()
