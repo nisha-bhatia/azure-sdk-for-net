@@ -1,45 +1,21 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Azure.ResourceManager.CosmosDB;
 using Azure.Management.Resources;
 using Azure.Management.Resources.Models;
-using Moq;
+using System.Threading.Tasks;
 
-namespace CosmosDB.Tests
+namespace Azure.ResourceManager.CosmosDB.Tests
 {
-    public class CosmosDBTestUtilities
+    public static class CosmosDBTestUtilities
     {
-        // Location to run tests.
-        public static string LOCATION = "eastus2";
-
-        //public static CosmosDBManagementClient GetCosmosDBClient(MockContext context, RecordedDelegatingHandler handler)
-        //{
-        //    handler.IsPassThrough = true;
-        //    CosmosDBManagementClient client = context.GetServiceClient<CosmosDBManagementClient>(handlers: handler);
-        //    return client;
-        //}
-
-        //public static string CreateResourceGroup(ResourcesManagementClient resourcesClient)
-        //{
-        //    const string testPrefix = "CosmosDBResourceGroup";
-        //    var rgname = TestUtilities.GenerateName(testPrefix);
-
-        //    var resourceGroupDefinition = new ResourceGroup
-        //    {
-        //        Location = LOCATION
-        //    };
-
-        //    if (!(bool)resourcesClient.ResourceGroups.CheckExistenceAsync(rgname).GetAwaiter().GetResult())
-        //        resourcesClient.ResourceGroups.CreateOrUpdate(rgname, resourceGroupDefinition);
-        //    return rgname;
-        //}
-
-        //public static ResourceManagementClient GetResourceManagementClient(MockContext context, RecordedDelegatingHandler handler)
-        //{
-        //    handler.IsPassThrough = true;
-        //    ResourceManagementClient resourcesClient = context.GetServiceClient<ResourceManagementClient>(handlers: handler);
-        //    return resourcesClient;
-        //}
+        internal const string databaseAccountName = "db2048";
+        internal const string location = "West US";
+        internal const string resourceGroupPrefix = "Default-CosmosDB-";
+        internal const string tableThroughputType = "Microsoft.DocumentDB/databaseAccounts/tables/throughputSettings";
+        public static async Task TryRegisterResourceGroupAsync(ResourceGroupsOperations resourceGroupsOperations, string location, string resourceGroupName)
+        {
+            await resourceGroupsOperations.CreateOrUpdateAsync(resourceGroupName, new ResourceGroup(location));
+        }
     }
 }

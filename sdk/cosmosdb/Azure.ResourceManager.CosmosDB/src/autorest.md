@@ -6,8 +6,7 @@ Run `dotnet msbuild /t:GenerateCode` to generate code.
 
 azure-arm: true
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/86f4c7c4403845651ab9c027f7aa6fa392fd935c/specification/cosmos-db/resource-manager/readme.md
-tag: package-2020-04
 modelerfour:
-  lenient-model-deduplication: true
+    lenient-model-deduplication: true
 
 ```
