@@ -37,9 +37,9 @@ namespace Azure.ResourceManager.CosmosDB.Tests
         }
 
         [TearDown]
-        public void CleanupResourceGroup()
+        public async Task CleanupResourceGroup()
         {
-           //await CleanupResourceGroupsAsync();
+           await CleanupResourceGroupsAsync();
         }
 
         [TestCase]
@@ -102,6 +102,7 @@ namespace Azure.ResourceManager.CosmosDB.Tests
 
             //TODO: Migrate To Manual and Autoscale tests from example: https://github.com/Azure/azure-rest-api-specs/blob/master/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2020-04-01/examples/CosmosDBCassandraTableMigrateToAutoscale.json
             //var migrateKeyspace = await CosmosDBManagementClient.CassandraResources.StartMigrateCassandraKeyspaceToManualThroughputAsync(resourceGroupName, databaseAccountName, keyspaceName);
+            //var migrateKeyspace = await cosmosDBClient.CassandraResources.StartMigrateCassandraKeyspaceToManualThroughputAsync(resourceGroupName, databaseAccountName, keyspaceName);
             //var taskResponseMigrate = migrateKeyspace.WaitForCompletionAsync();
             //var responseMigrate = taskResponseMigrate.ConfigureAwait(false).GetAwaiter().GetResult();
             //Assert.AreEqual(responseMigrate.Value.Resource.MinimumThroughput, responseMigrate.Value.Resource.Throughput);
