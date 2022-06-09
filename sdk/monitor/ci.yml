@@ -28,6 +28,8 @@ extends:
     ServiceDirectory: monitor
     ArtifactName: packages
     Artifacts:
+    - name: Azure.Monitor.Ingestion
+      safeName: AzureMonitorIngestion
     - name: Azure.Monitor.OpenTelemetry.Exporter
       safeName: MicrosoftOpenTelemetryExporterAzureMonitor
     - name: Azure.Monitor.Query
