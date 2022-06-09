@@ -10,8 +10,8 @@ using Azure.Core;
 
 namespace Azure.Monitor.Ingestion
 {
-    /// <summary> Client options for DataCollectionRuleClient. </summary>
-    public partial class DataCollectionRuleClientOptions : ClientOptions
+    /// <summary> Client options for IngestionUsingDataCollectionRulesClient. </summary>
+    public partial class IngestionUsingDataCollectionRulesClientOptions : ClientOptions
     {
         private const ServiceVersion LatestVersion = ServiceVersion.V2021_11_01_preview;
 
@@ -24,8 +24,8 @@ namespace Azure.Monitor.Ingestion
 
         internal string Version { get; }
 
-        /// <summary> Initializes new instance of DataCollectionRuleClientOptions. </summary>
-        public DataCollectionRuleClientOptions(ServiceVersion version = LatestVersion)
+        /// <summary> Initializes new instance of IngestionUsingDataCollectionRulesClientOptions. </summary>
+        public IngestionUsingDataCollectionRulesClientOptions(ServiceVersion version = LatestVersion)
         {
             Version = version switch
             {

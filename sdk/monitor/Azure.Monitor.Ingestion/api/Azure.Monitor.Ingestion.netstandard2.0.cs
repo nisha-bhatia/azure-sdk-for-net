@@ -1,17 +1,20 @@
 namespace Azure.Monitor.Ingestion
 {
-    public partial class IngestionClient
+    public partial class IngestionUsingDataCollectionRulesClient
     {
-        protected IngestionClient() { }
-        public IngestionClient(string endpoint, Azure.Core.TokenCredential credential, Azure.Monitor.Ingestion.IngestionClientOptions options = null) { }
+        protected IngestionUsingDataCollectionRulesClient() { }
+        public IngestionUsingDataCollectionRulesClient(string endpoint, Azure.AzureKeyCredential credential) { }
+        public IngestionUsingDataCollectionRulesClient(string endpoint, Azure.AzureKeyCredential credential, Azure.Monitor.Ingestion.IngestionUsingDataCollectionRulesClientOptions options) { }
         public virtual Azure.Core.Pipeline.HttpPipeline Pipeline { get { throw null; } }
+        public virtual Azure.Response Upload(string ruleId, string stream, Azure.Core.RequestContent content, string contentEncoding = null, Azure.RequestContext context = null) { throw null; }
+        public virtual System.Threading.Tasks.Task<Azure.Response> UploadAsync(string ruleId, string stream, Azure.Core.RequestContent content, string contentEncoding = null, Azure.RequestContext context = null) { throw null; }
     }
-    public partial class IngestionClientOptions : Azure.Core.ClientOptions
+    public partial class IngestionUsingDataCollectionRulesClientOptions : Azure.Core.ClientOptions
     {
-        public IngestionClientOptions(Azure.Monitor.Ingestion.Generated.IngestionClientOptions.ServiceVersion version = Azure.Monitor.Ingestion.Generated.IngestionClientOptions.ServiceVersion.V1_0_0) { }
+        public IngestionUsingDataCollectionRulesClientOptions(Azure.Monitor.Ingestion.IngestionUsingDataCollectionRulesClientOptions.ServiceVersion version = Azure.Monitor.Ingestion.IngestionUsingDataCollectionRulesClientOptions.ServiceVersion.V2021_11_01_preview) { }
         public enum ServiceVersion
         {
-            V1_0_0 = 1,
+            V2021_11_01_preview = 1,
         }
     }
 }

@@ -13,10 +13,11 @@ using Azure.Core.Pipeline;
 
 namespace Azure.Monitor.Ingestion
 {
-    /// <summary> The DataCollectionRule service client. </summary>
-    public partial class DataCollectionRuleClient
+    /// <summary> The IngestionUsingDataCollectionRules service client. </summary>
+    public partial class IngestionUsingDataCollectionRulesClient
     {
-        private readonly TokenCredential _keyCredential;
+        private const string AuthorizationHeader = "Ocp-Apim-Subscription-Key";
+        private readonly AzureKeyCredential _keyCredential;
         private readonly HttpPipeline _pipeline;
         private readonly string _endpoint;
         private readonly string _apiVersion;
@@ -27,35 +28,34 @@ namespace Azure.Monitor.Ingestion
         /// <summary> The HTTP pipeline for sending and receiving REST requests and responses. </summary>
         public virtual HttpPipeline Pipeline => _pipeline;
 
-        /// <summary> Initializes a new instance of DataCollectionRuleClient for mocking. </summary>
-        protected DataCollectionRuleClient()
+        /// <summary> Initializes a new instance of IngestionUsingDataCollectionRulesClient for mocking. </summary>
+        protected IngestionUsingDataCollectionRulesClient()
         {
         }
 
-        /// <summary> Initializes a new instance of DataCollectionRuleClient. </summary>
+        /// <summary> Initializes a new instance of IngestionUsingDataCollectionRulesClient. </summary>
         /// <param name="endpoint"> The Data Collection Endpoint for the Data Collection Rule, for example https://dce-name.eastus-2.ingest.monitor.azure.com. </param>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> or <paramref name="credential"/> is null. </exception>
-        public DataCollectionRuleClient(Uri endpoint, TokenCredential credential) : this(endpoint, credential, new DataCollectionRuleClientOptions())
+        public IngestionUsingDataCollectionRulesClient(string endpoint, AzureKeyCredential credential) : this(endpoint, credential, new IngestionUsingDataCollectionRulesClientOptions())
         {
         }
 
-        /// <summary> Initializes a new instance of DataCollectionRuleClient. </summary>
+        /// <summary> Initializes a new instance of IngestionUsingDataCollectionRulesClient. </summary>
         /// <param name="endpoint"> The Data Collection Endpoint for the Data Collection Rule, for example https://dce-name.eastus-2.ingest.monitor.azure.com. </param>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <param name="options"> The options for configuring the client. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> or <paramref name="credential"/> is null. </exception>
-        public DataCollectionRuleClient(Uri endpoint, TokenCredential credential, DataCollectionRuleClientOptions options)
+        public IngestionUsingDataCollectionRulesClient(string endpoint, AzureKeyCredential credential, IngestionUsingDataCollectionRulesClientOptions options)
         {
             Argument.AssertNotNull(endpoint, nameof(endpoint));
             Argument.AssertNotNull(credential, nameof(credential));
-            options ??= new DataCollectionRuleClientOptions();
+            options ??= new IngestionUsingDataCollectionRulesClientOptions();
 
             ClientDiagnostics = new ClientDiagnostics(options, true);
             _keyCredential = credential;
-            var scope = "https://monitor.azure.com//.default";
-            _pipeline = HttpPipelineBuilder.Build(options, Array.Empty<HttpPipelinePolicy>(), new HttpPipelinePolicy[] { new BearerTokenAuthenticationPolicy(credential, scope) }, new ResponseClassifier());
-            _endpoint = endpoint.AbsoluteUri;
+            _pipeline = HttpPipelineBuilder.Build(options, Array.Empty<HttpPipelinePolicy>(), new HttpPipelinePolicy[] { new AzureKeyCredentialPolicy(_keyCredential, AuthorizationHeader) }, new ResponseClassifier());
+            _endpoint = endpoint;
             _apiVersion = options.Version;
         }
 
@@ -86,17 +86,17 @@ namespace Azure.Monitor.Ingestion
         /// </code>
         /// 
         /// </remarks>
-        public virtual async Task<Response> IngestAsync(string ruleId, string stream, RequestContent content, string contentEncoding = null, RequestContext context = null)
+        public virtual async Task<Response> UploadAsync(string ruleId, string stream, RequestContent content, string contentEncoding = null, RequestContext context = null)
         {
             Argument.AssertNotNullOrEmpty(ruleId, nameof(ruleId));
             Argument.AssertNotNullOrEmpty(stream, nameof(stream));
             Argument.AssertNotNull(content, nameof(content));
 
-            using var scope = ClientDiagnostics.CreateScope("DataCollectionRuleClient.Ingest");
+            using var scope = ClientDiagnostics.CreateScope("IngestionUsingDataCollectionRulesClient.Upload");
             scope.Start();
             try
             {
-                using HttpMessage message = CreateIngestRequest(ruleId, stream, content, contentEncoding, context);
+                using HttpMessage message = CreateUploadRequest(ruleId, stream, content, contentEncoding, context);
                 return await _pipeline.ProcessMessageAsync(message, context).ConfigureAwait(false);
             }
             catch (Exception e)
@@ -133,17 +133,17 @@ namespace Azure.Monitor.Ingestion
         /// </code>
         /// 
         /// </remarks>
-        public virtual Response Ingest(string ruleId, string stream, RequestContent content, string contentEncoding = null, RequestContext context = null)
+        public virtual Response Upload(string ruleId, string stream, RequestContent content, string contentEncoding = null, RequestContext context = null)
         {
             Argument.AssertNotNullOrEmpty(ruleId, nameof(ruleId));
             Argument.AssertNotNullOrEmpty(stream, nameof(stream));
             Argument.AssertNotNull(content, nameof(content));
 
-            using var scope = ClientDiagnostics.CreateScope("DataCollectionRuleClient.Ingest");
+            using var scope = ClientDiagnostics.CreateScope("IngestionUsingDataCollectionRulesClient.Upload");
             scope.Start();
             try
             {
-                using HttpMessage message = CreateIngestRequest(ruleId, stream, content, contentEncoding, context);
+                using HttpMessage message = CreateUploadRequest(ruleId, stream, content, contentEncoding, context);
                 return _pipeline.ProcessMessage(message, context);
             }
             catch (Exception e)
@@ -153,7 +153,7 @@ namespace Azure.Monitor.Ingestion
             }
         }
 
-        internal HttpMessage CreateIngestRequest(string ruleId, string stream, RequestContent content, string contentEncoding, RequestContext context)
+        internal HttpMessage CreateUploadRequest(string ruleId, string stream, RequestContent content, string contentEncoding, RequestContext context)
         {
             var message = _pipeline.CreateMessage(context, ResponseClassifier204);
             var request = message.Request;
