@@ -12,32 +12,3 @@ namespace: Azure.Monitor.Ingestion
 security: AADToken
 security-scopes: https://monitor.azure.com//.default
 ```
-
-### Renames parameter in Upload methods to streamName
-``` yaml
-directive:
-- from: swagger-document
-  where: $.paths["/dataCollectionRules/{ruleId}/streams/{stream}"].post.parameters[1]
-  transform: $["x-ms-client-name"] = "streamName";
-```
-### Updates type of endpoint in LogsIngestionClient to Uri
-``` yaml
-directive:
-- from: swagger-document
-  where: $.parameters.Endpoint
-  transform: $.format = "url";
-```
-### Updates default parameter contentEncoding value from null to gzip in Upload method
-``` yaml
-directive:
-- from: swagger-document
-  where: $.paths["/dataCollectionRules/{ruleId}/streams/{stream}"].post.parameters[3]
-  transform: $["x-ms-client-default"] = "gzip";
-```
-### Update auto-generated Upload/UploadAsync methods to internal
-``` yaml
-directive:
-- from: swagger-document
-  where: $.paths["/dataCollectionRules/{ruleId}/streams/{stream}"].post
-  transform: $['x-accessibility'] = "internal";
-```

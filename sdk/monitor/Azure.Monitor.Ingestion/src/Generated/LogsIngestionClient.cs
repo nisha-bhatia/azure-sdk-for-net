@@ -20,7 +20,7 @@ namespace Azure.Monitor.Ingestion
         private static readonly string[] AuthorizationScopes = new string[] { "https://monitor.azure.com//.default" };
         private readonly TokenCredential _tokenCredential;
         private readonly HttpPipeline _pipeline;
-        private readonly Uri _endpoint;
+        private readonly string _endpoint;
         private readonly string _apiVersion;
 
         /// <summary> The ClientDiagnostics is used to provide tracing support for the client library. </summary>
@@ -33,7 +33,7 @@ namespace Azure.Monitor.Ingestion
         /// <param name="endpoint"> The Data Collection Endpoint for the Data Collection Rule, for example https://dce-name.eastus-2.ingest.monitor.azure.com. </param>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> or <paramref name="credential"/> is null. </exception>
-        public LogsIngestionClient(Uri endpoint, TokenCredential credential) : this(endpoint, credential, new LogsIngestionClientOptions())
+        public LogsIngestionClient(string endpoint, TokenCredential credential) : this(endpoint, credential, new LogsIngestionClientOptions())
         {
         }
 
@@ -42,7 +42,7 @@ namespace Azure.Monitor.Ingestion
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <param name="options"> The options for configuring the client. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> or <paramref name="credential"/> is null. </exception>
-        public LogsIngestionClient(Uri endpoint, TokenCredential credential, LogsIngestionClientOptions options)
+        public LogsIngestionClient(string endpoint, TokenCredential credential, LogsIngestionClientOptions options)
         {
             Argument.AssertNotNull(endpoint, nameof(endpoint));
             Argument.AssertNotNull(credential, nameof(credential));
