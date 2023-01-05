@@ -180,6 +180,7 @@ namespace Azure.Monitor.Ingestion
         /// <param name="streamName"> The streamDeclaration name as defined in the Data Collection Rule. </param>
         /// <param name="logs"> The content to send as the body of the request. Details of the request body schema are in the Remarks section below. </param>
         /// <param name="options"> The options model to configure the request to upload logs to Azure Monitor. </param>
+        /// <param name="stopUpload"></param>
         /// <param name="cancellationToken"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="ruleId"/>, <paramref name="streamName"/> or <paramref name="logs"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="ruleId"/> or <paramref name="streamName"/> is an empty string, and was expected to be non-empty. </exception>
@@ -201,7 +202,7 @@ namespace Azure.Monitor.Ingestion
         /// ]]></code>
         /// </example>
         /// <remarks> See error response code and error response message for more detail. </remarks>
-        public virtual Response Upload<T>(string ruleId, string streamName, IEnumerable<T> logs, UploadLogsOptions options = null, CancellationToken cancellationToken = default)
+        public virtual Response Upload<TObject>(string ruleId, string streamName, IEnumerable<Object> logs, bool stopUpload, UploadLogsOptions options = null, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(ruleId, nameof(ruleId));
             Argument.AssertNotNullOrEmpty(streamName, nameof(streamName));
@@ -212,22 +213,28 @@ namespace Azure.Monitor.Ingestion
             Response response = null;
             List<Exception> exceptions = null;
 
+            // Create SyncAsyncEventArgs to handle exceptions from the convenience Upload methods
+            SyncAsyncEventArgs eventArgs = new SyncAsyncEventArgs(stopUpload, cancellationToken);
+
             scope.Start();
             // Keep track of the number of failed logs across batches
             int logsFailed = 0;
 
             // Partition the stream into individual blocks
-            foreach (BatchedLogs<T> batch in Batch(logs, options))
+            foreach (BatchedLogs<Object> batch in Batch(logs, options))
             {
                 try
                 {
                     // Because we are uploading in sequence, wait for each batch to upload before starting the next batch
-                    response = UploadBatchListSyncOrAsync(
+                    response = (SyncAsyncEventArgs eventArgs) =>
+                    { UploadBatchListSyncOrAsync(
                         batch,
                         ruleId,
                         streamName,
                         async: false,
-                        cancellationToken).EnsureCompleted();
+                        cancellationToken)
+                    };
+                    //.EnsureCompleted();
 
                     if (response.Status != 204)
                     {
