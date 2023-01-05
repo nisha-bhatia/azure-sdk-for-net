@@ -17,7 +17,7 @@ namespace Azure.Monitor.Query.Tests
     {
         private LogsTestData _logsTestData;
 
-        public LogsQueryClientClientLiveTests(bool isAsync) : base(isAsync)
+        public LogsQueryClientClientLiveTests(bool isAsync) : base(isAsync, RecordedTestMode.Live)
         {
         }
 
