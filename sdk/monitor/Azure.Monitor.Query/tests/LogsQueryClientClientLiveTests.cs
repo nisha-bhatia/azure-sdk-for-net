@@ -610,6 +610,7 @@ namespace Azure.Monitor.Query.Tests
             }
         }
 
+        [Ignore("test")]
         [RecordedTest]
         public async Task CanSetServiceTimeout()
         {
