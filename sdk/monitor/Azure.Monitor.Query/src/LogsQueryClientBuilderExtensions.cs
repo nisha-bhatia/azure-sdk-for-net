@@ -12,6 +12,14 @@ namespace Microsoft.Extensions.Azure
     {
         /// <summary> Registers a <see cref="LogsQueryClient"/> instance. </summary>
         /// <param name="builder"> The builder to register with. </param>
+        public static IAzureClientBuilder<LogsQueryClient, LogsQueryClientOptions> AddLogsQueryClient<TBuilder>(this TBuilder builder)
+        where TBuilder : IAzureClientFactoryBuilderWithCredential
+        {
+            return builder.RegisterClientFactory<LogsQueryClient, LogsQueryClientOptions>((options, cred) => new LogsQueryClient(cred, options));
+        }
+
+        /// <summary> Registers a <see cref="LogsQueryClient"/> instance. </summary>
+        /// <param name="builder"> The builder to register with. </param>
         /// <param name="endpoint"> The resource manager service endpoint to use. For example <c>https://management.azure.com/</c> for public cloud. </param>
         public static IAzureClientBuilder<LogsQueryClient, LogsQueryClientOptions> AddLogsQueryClient<TBuilder>(this TBuilder builder, Uri endpoint)
         where TBuilder : IAzureClientFactoryBuilderWithCredential
