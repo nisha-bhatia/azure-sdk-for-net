@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-
+//TEST
 namespace Azure.Core.Tests.ModelSerializationTests
 {
     public class Animal : IJsonSerializable, IUtf8JsonSerializable
