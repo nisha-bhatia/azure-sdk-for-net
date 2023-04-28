@@ -38,6 +38,11 @@ namespace Azure.Core.Tests.ModelSerializationTests
             RawData = rawData;
         }
 
+        internal Animal(string name)
+        {
+            Name = name;
+        }
+
         #region Serialization
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer, SerializableOptions options)
         {

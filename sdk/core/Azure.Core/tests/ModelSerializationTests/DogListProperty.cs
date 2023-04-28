@@ -11,20 +11,22 @@ namespace Azure.Core.Tests.ModelSerializationTests
     public class DogListProperty : Animal, IJsonSerializable, IUtf8JsonSerializable
     {
         private Dictionary<string, BinaryData> RawData { get; set; } = new Dictionary<string, BinaryData>();
-        public List<string> FoodConsumed { get; set; } = new List<string> {"kibble", "egg"};
+        public List<string> FoodConsumed { get; set; } = new List<string> {"kibble", "egg", "peanut butter"};
 
-        public DogListProperty(string name) : base(default, default, name, default)
+        public DogListProperty(string name) : base(name)
         {
-            DogName = name;
+            Name = name;
         }
 
-        internal DogListProperty(string name, Dictionary<string, BinaryData> rawData, List<string> foodConsumed) : this(name)
+        internal DogListProperty(double weight, string latinName, string name, bool isHungry, List<string> foodConsumed, Dictionary<string, BinaryData> rawData) : base(weight, latinName, name, isHungry, rawData)
         {
             RawData = rawData;
             FoodConsumed = foodConsumed;
         }
 
-        private string DogName;
+        public DogListProperty()
+        {
+        }
 
         #region Serialization
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer, SerializableOptions options)
@@ -36,7 +38,11 @@ namespace Azure.Core.Tests.ModelSerializationTests
                 writer.WriteStringValue(LatinName);
             }
             writer.WritePropertyName("name"u8);
-            writer.WriteStringValue(DogName);
+            writer.WriteStringValue(Name);
+            writer.WritePropertyName("isHungry"u8);
+            writer.WriteBooleanValue(IsHungry);
+            writer.WritePropertyName("weight"u8);
+            writer.WriteNumberValue(Weight);
 
             writer.WritePropertyName("foodConsumed"u8);
             writer.WriteStartArray();
@@ -64,22 +70,40 @@ namespace Azure.Core.Tests.ModelSerializationTests
 
         internal static DogListProperty DeserializeDogListProperty(JsonElement element, SerializableOptions options)
         {
+            double weight = default;
             string name = "";
+            string latinName = "";
+            bool isHungry = default;
             Dictionary<string, BinaryData> rawData = new Dictionary<string, BinaryData>();
             List<string> foodConsumed = new List<string>();
 
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("weight"u8))
+                {
+                    weight = property.Value.GetDouble();
+                    continue;
+                }
                 if (property.NameEquals("name"u8))
                 {
                     name = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("latinName"u8))
+                {
+                    latinName = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("isHungry"u8))
+                {
+                    isHungry = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("foodConsumed"u8))
                 {
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        foodConsumed.Add(item);
+                        foodConsumed.Add(item.GetString());
                     }
                     continue;
                 }
@@ -89,7 +113,7 @@ namespace Azure.Core.Tests.ModelSerializationTests
                     rawData.Add(property.Name, BinaryData.FromString(property.Value.GetRawText()));
                 }
             }
-            return new DogListProperty(name, rawData, foodConsumed);
+            return new DogListProperty(weight, latinName, name, isHungry, foodConsumed, rawData);
         }
         #endregion
 
@@ -101,7 +125,9 @@ namespace Azure.Core.Tests.ModelSerializationTests
             {
                 JsonDocument jsonDocument = JsonDocument.Parse(stream);
                 var model = DeserializeDogListProperty(jsonDocument.RootElement, options ?? new SerializableOptions());
-                this.DogName = model.DogName;
+                this.Name = model.Name;
+                this.Weight = model.Weight;
+                this.IsHungry = model.IsHungry;
                 this.FoodConsumed = model.FoodConsumed;
                 this.RawData = model.RawData;
                 bytesConsumed = stream.Length;
