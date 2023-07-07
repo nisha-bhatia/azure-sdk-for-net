@@ -65,7 +65,7 @@ namespace Azure.Monitor.Query
                 new BearerTokenAuthenticationPolicy(credential, scope));
 
             _metricDefinitionsClient = new MetricDefinitionsRestClient(_clientDiagnostics, pipeline, endpoint);
-            _metricsRestClient = new MetricsRestClient(_clientDiagnostics, pipeline, endpoint);
+            _metricsRestClient = new MetricsRestClient(_clientDiagnostics, pipeline, endpoint.AbsoluteUri);
             _namespacesRestClient = new MetricNamespacesRestClient(_clientDiagnostics, pipeline, endpoint);
         }
 
