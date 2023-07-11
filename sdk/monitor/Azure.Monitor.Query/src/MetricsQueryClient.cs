@@ -82,6 +82,11 @@ namespace Azure.Monitor.Query
         public Uri Endpoint { get; }
 
         /// <summary>
+        /// Gets the endpoint for QueryBatch.
+        /// </summary>
+        public Uri BatchEndpoint { get; }
+
+        /// <summary>
         /// Queries metrics for a resource.
         /// <code snippet="Snippet:QueryMetrics" language="csharp">
         /// string resourceId =
@@ -336,5 +341,67 @@ namespace Azure.Monitor.Query
             }
             return string.Join(",", options.Aggregations);
         }
+
+        /// <summary>
+        /// todo
+        /// </summary>
+        /// <param name="resourceUris"></param>
+        /// <param name="metricsNames"></param>
+        /// <param name="metricsNamespace"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+#pragma warning disable AZC0015 // Unexpected client method return type.
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public virtual MetricsBatchResult QueryBatch(List<Uri> resourceUris, List<string> metricsNames, string metricsNamespace, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// todo
+        /// </summary>
+        /// <param name="resourceUris"></param>
+        /// <param name="metricsNames"></param>
+        /// <param name="metricsNamespace"></param>
+        /// <param name="requestContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual Response<MetricsBatchResult> QueryBatchWithResponse(List<Uri> resourceUris, List<string> metricsNames, string metricsNamespace, RequestContext requestContext, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// todo
+        /// </summary>
+        /// <param name="resourceUris"></param>
+        /// <param name="metricsNames"></param>
+        /// <param name="metricsNamespace"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual async Task<MetricsBatchResult> QueryBatchAsync(List<Uri> resourceUris, List<string> metricsNames, string metricsNamespace, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// todo
+        /// </summary>
+        /// <param name="resourceUris"></param>
+        /// <param name="metricsNames"></param>
+        /// <param name="metricsNamespace"></param>
+        /// <param name="requestContext"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual async Task<Response<MetricsBatchResult>> QueryBatchWithResponseAsync(List<Uri> resourceUris, List<string> metricsNames, string metricsNamespace, RequestContext requestContext, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+#pragma warning restore AZC0015 // Unexpected client method return type.
     }
 }
