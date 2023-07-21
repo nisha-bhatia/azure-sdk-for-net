@@ -60,7 +60,8 @@ namespace Azure.Core.Serialization
                     type == typeof(ETag) ||
                     type == typeof(JsonElement) ||
                     type == typeof(JsonDocument) ||
-                    type == typeof(DynamicData);
+                    type == typeof(DynamicData)||
+                    type == typeof(IModelSerializable);
             }
 
             private static bool IsAllowedCollectionValue<T>(Type type, T value)
@@ -194,6 +195,23 @@ namespace Azure.Core.Serialization
             private static bool IsAnonymousType(Type type)
             {
                 return type.Name.StartsWith("<>f__AnonymousType");
+            }
+
+            // Determines if type inherits from IModelSerializable<T> for any T
+            // Method is recursive to check type heirarchy
+            private static bool IsModelSerializableType(Type type)
+            {
+                if (type == null)
+                {
+                    return false;
+                }
+
+                if (type.IsInterface && type.GetGenericTypeDefinition() == typeof(IModelSerializable))
+                {
+                    return true;
+                }
+
+                return IsModelSerializableType(type.BaseType);
             }
         }
     }
