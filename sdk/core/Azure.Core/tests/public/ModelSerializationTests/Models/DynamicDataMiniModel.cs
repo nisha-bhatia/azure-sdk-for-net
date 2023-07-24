@@ -9,7 +9,7 @@ using Azure.Core.Serialization;
 
 namespace Azure.Core.Tests.Public.ModelSerializationTests
 {
-    public class DynamicDataMiniModel : IJsonModelSerializable, IUtf8JsonSerializable
+    public class DynamicDataMiniModel : IModelSerializable, IUtf8JsonSerializable, IJsonModelSerializable
     {
         public DynamicDataMiniModel(string x)
         {
@@ -60,7 +60,6 @@ namespace Azure.Core.Tests.Public.ModelSerializationTests
             JsonDocument doc = JsonDocument.ParseValue(ref reader);
             return DeserializeDynamicDataMiniModel(doc.RootElement, options);
         }
-
         #endregion
     }
 }

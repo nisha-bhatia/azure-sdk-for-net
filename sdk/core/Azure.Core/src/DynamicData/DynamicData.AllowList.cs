@@ -4,6 +4,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 
@@ -61,7 +62,7 @@ namespace Azure.Core.Serialization
                     type == typeof(JsonElement) ||
                     type == typeof(JsonDocument) ||
                     type == typeof(DynamicData)||
-                    type == typeof(IModelSerializable);
+                    DoesImplementIModelSerializable(type);
             }
 
             private static bool IsAllowedCollectionValue<T>(Type type, T value)
@@ -199,19 +200,9 @@ namespace Azure.Core.Serialization
 
             // Determines if type inherits from IModelSerializable<T> for any T
             // Method is recursive to check type heirarchy
-            private static bool IsModelSerializableType(Type type)
+            private static bool DoesImplementIModelSerializable(Type type)
             {
-                if (type == null)
-                {
-                    return false;
-                }
-
-                if (type.IsInterface && type.GetGenericTypeDefinition() == typeof(IModelSerializable))
-                {
-                    return true;
-                }
-
-                return IsModelSerializableType(type.BaseType);
+                return type.GetInterface(nameof(IModelSerializable)) != null;
             }
         }
     }

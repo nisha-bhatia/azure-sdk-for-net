@@ -10,7 +10,7 @@ using Azure.Core.Serialization;
 
 namespace Azure.Core.Tests.Public.ModelSerializationTests
 {
-    public class DynamicDataBaseModel : IUtf8JsonSerializable, IJsonModelSerializable
+    public class DynamicDataBaseModel : IUtf8JsonSerializable, IModelSerializable, IJsonModelSerializable
     {
         private Dictionary<string, BinaryData> RawData { get; set; } = new Dictionary<string, BinaryData>();
 
