@@ -55,6 +55,7 @@ namespace Azure.Core.Json
                 return _serializedValue.Value;
             }
 
+            if ()
             byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(Value, _serializerOptions);
             _serializedValue = JsonDocument.Parse(bytes).RootElement;
             return _serializedValue.Value;
