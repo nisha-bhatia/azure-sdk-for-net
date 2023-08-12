@@ -28,10 +28,10 @@ namespace Azure.Core.Tests.ModelSerializationTests.Models
             KeyValuePairs = keyValuePairs;
         }
 
-        public int XProperty { get; private set; }
-        public IList<string> Fields { get; internal set; }
+        public int XProperty { get; }
+        public IList<string> Fields { get; }
         public int? NullProperty = null;
-        public IDictionary<string, string> KeyValuePairs { get; internal set; }
+        public IDictionary<string, string> KeyValuePairs { get; }
 
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer) => ((IModelJsonSerializable<ModelX>)this).Serialize(writer, ModelSerializerOptions.DefaultWireOptions);
 

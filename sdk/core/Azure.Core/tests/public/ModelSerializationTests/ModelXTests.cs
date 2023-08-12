@@ -14,7 +14,7 @@ namespace Azure.Core.Tests.Public.ModelSerializationTests
     {
         protected override string JsonPayload => WirePayload;
 
-        protected override string WirePayload => File.ReadAllText(TestData.GetLocation("ModelX.json")).TrimEnd();
+        protected override string WirePayload => File.ReadAllText(TestData.GetLocation("ModelX/ModelXWireFormat.json")).TrimEnd();
 
         protected override Func<ModelX, RequestContent> ToRequestContent => model => model;
 
