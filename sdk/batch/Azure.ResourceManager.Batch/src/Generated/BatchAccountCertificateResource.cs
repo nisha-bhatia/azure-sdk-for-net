@@ -9,10 +9,8 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.ResourceManager;
 using Azure.ResourceManager.Batch.Models;
 
 namespace Azure.ResourceManager.Batch
@@ -282,10 +280,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         public virtual async Task<Response<BatchAccountCertificateResource>> UpdateAsync(BatchAccountCertificateCreateOrUpdateContent content, ETag? ifMatch = null, CancellationToken cancellationToken = default)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Argument.AssertNotNull(content, nameof(content));
 
             using var scope = _batchAccountCertificateCertificateClientDiagnostics.CreateScope("BatchAccountCertificateResource.Update");
             scope.Start();
@@ -328,10 +323,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         public virtual Response<BatchAccountCertificateResource> Update(BatchAccountCertificateCreateOrUpdateContent content, ETag? ifMatch = null, CancellationToken cancellationToken = default)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Argument.AssertNotNull(content, nameof(content));
 
             using var scope = _batchAccountCertificateCertificateClientDiagnostics.CreateScope("BatchAccountCertificateResource.Update");
             scope.Start();

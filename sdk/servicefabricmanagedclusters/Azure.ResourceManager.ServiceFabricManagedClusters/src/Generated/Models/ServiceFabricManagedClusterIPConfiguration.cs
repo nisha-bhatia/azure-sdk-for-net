@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using Azure.Core;
 using Azure.ResourceManager.Resources.Models;
-using Azure.ResourceManager.ServiceFabricManagedClusters;
 
 namespace Azure.ResourceManager.ServiceFabricManagedClusters.Models
 {
@@ -53,10 +52,7 @@ namespace Azure.ResourceManager.ServiceFabricManagedClusters.Models
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
         public ServiceFabricManagedClusterIPConfiguration(string name)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+            Argument.AssertNotNull(name, nameof(name));
 
             Name = name;
             ApplicationGatewayBackendAddressPools = new ChangeTrackingList<WritableSubResource>();

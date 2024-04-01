@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using Azure.Communication;
 
 namespace Azure.Communication.CallingServer
 {
@@ -19,10 +18,7 @@ namespace Azure.Communication.CallingServer
         /// <exception cref="ArgumentNullException"> <paramref name="playSourceInfo"/> is null. </exception>
         public PlayRequestInternal(PlaySourceInternal playSourceInfo)
         {
-            if (playSourceInfo == null)
-            {
-                throw new ArgumentNullException(nameof(playSourceInfo));
-            }
+            Argument.AssertNotNull(playSourceInfo, nameof(playSourceInfo));
 
             PlaySourceInfo = playSourceInfo;
             PlayTo = new ChangeTrackingList<CommunicationIdentifierModel>();

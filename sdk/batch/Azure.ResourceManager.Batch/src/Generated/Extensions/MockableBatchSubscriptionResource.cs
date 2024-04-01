@@ -9,11 +9,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Autorest.CSharp.Core;
-using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Batch;
 using Azure.ResourceManager.Batch.Models;
 
 namespace Azure.ResourceManager.Batch.Mocking
@@ -318,10 +315,7 @@ namespace Azure.ResourceManager.Batch.Mocking
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         public virtual async Task<Response<BatchNameAvailabilityResult>> CheckBatchNameAvailabilityAsync(AzureLocation locationName, BatchNameAvailabilityContent content, CancellationToken cancellationToken = default)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Argument.AssertNotNull(content, nameof(content));
 
             using var scope = LocationClientDiagnostics.CreateScope("MockableBatchSubscriptionResource.CheckBatchNameAvailability");
             scope.Start();
@@ -360,10 +354,7 @@ namespace Azure.ResourceManager.Batch.Mocking
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         public virtual Response<BatchNameAvailabilityResult> CheckBatchNameAvailability(AzureLocation locationName, BatchNameAvailabilityContent content, CancellationToken cancellationToken = default)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Argument.AssertNotNull(content, nameof(content));
 
             using var scope = LocationClientDiagnostics.CreateScope("MockableBatchSubscriptionResource.CheckBatchNameAvailability");
             scope.Start();

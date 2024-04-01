@@ -12,10 +12,8 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Autorest.CSharp.Core;
-using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.ResourceManager;
 
 namespace Azure.ResourceManager.Batch
 {
@@ -82,18 +80,8 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> or <paramref name="data"/> is null. </exception>
         public virtual async Task<ArmOperation<BatchApplicationPackageResource>> CreateOrUpdateAsync(WaitUntil waitUntil, string versionName, BatchApplicationPackageData data, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
+            Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.CreateOrUpdate");
             scope.Start();
@@ -141,18 +129,8 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> or <paramref name="data"/> is null. </exception>
         public virtual ArmOperation<BatchApplicationPackageResource> CreateOrUpdate(WaitUntil waitUntil, string versionName, BatchApplicationPackageData data, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
+            Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.CreateOrUpdate");
             scope.Start();
@@ -198,14 +176,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> is null. </exception>
         public virtual async Task<Response<BatchApplicationPackageResource>> GetAsync(string versionName, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.Get");
             scope.Start();
@@ -250,14 +221,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> is null. </exception>
         public virtual Response<BatchApplicationPackageResource> Get(string versionName, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.Get");
             scope.Start();
@@ -364,14 +328,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> is null. </exception>
         public virtual async Task<Response<bool>> ExistsAsync(string versionName, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.Exists");
             scope.Start();
@@ -414,14 +371,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> is null. </exception>
         public virtual Response<bool> Exists(string versionName, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.Exists");
             scope.Start();
@@ -464,14 +414,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> is null. </exception>
         public virtual async Task<NullableResponse<BatchApplicationPackageResource>> GetIfExistsAsync(string versionName, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.GetIfExists");
             scope.Start();
@@ -516,14 +459,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="versionName"/> is null. </exception>
         public virtual NullableResponse<BatchApplicationPackageResource> GetIfExists(string versionName, CancellationToken cancellationToken = default)
         {
-            if (versionName == null)
-            {
-                throw new ArgumentNullException(nameof(versionName));
-            }
-            if (versionName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(versionName));
-            }
+            Argument.AssertNotNullOrEmpty(versionName, nameof(versionName));
 
             using var scope = _batchApplicationPackageApplicationPackageClientDiagnostics.CreateScope("BatchApplicationPackageCollection.GetIfExists");
             scope.Start();

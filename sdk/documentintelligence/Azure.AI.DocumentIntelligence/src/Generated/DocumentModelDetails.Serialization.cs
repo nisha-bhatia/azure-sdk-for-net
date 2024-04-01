@@ -9,7 +9,6 @@ using System;
 using System.ClientModel.Primitives;
 using System.Collections.Generic;
 using System.Text.Json;
-using Azure;
 using Azure.Core;
 
 namespace Azure.AI.DocumentIntelligence
@@ -23,7 +22,7 @@ namespace Azure.AI.DocumentIntelligence
             var format = options.Format == "W" ? ((IPersistableModel<DocumentModelDetails>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support '{format}' format.");
+                throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support writing '{format}' format.");
             }
 
             writer.WriteStartObject();
@@ -35,11 +34,11 @@ namespace Azure.AI.DocumentIntelligence
                 writer.WriteStringValue(Description);
             }
             writer.WritePropertyName("createdDateTime"u8);
-            writer.WriteStringValue(CreatedDateTime, "O");
-            if (Optional.IsDefined(ExpirationDateTime))
+            writer.WriteStringValue(CreatedOn, "O");
+            if (Optional.IsDefined(ExpiresOn))
             {
                 writer.WritePropertyName("expirationDateTime"u8);
-                writer.WriteStringValue(ExpirationDateTime.Value, "O");
+                writer.WriteStringValue(ExpiresOn.Value, "O");
             }
             if (Optional.IsDefined(ApiVersion))
             {
@@ -65,12 +64,12 @@ namespace Azure.AI.DocumentIntelligence
             if (Optional.IsDefined(AzureBlobSource))
             {
                 writer.WritePropertyName("azureBlobSource"u8);
-                writer.WriteObjectValue(AzureBlobSource);
+                writer.WriteObjectValue<AzureBlobContentSource>(AzureBlobSource, options);
             }
             if (Optional.IsDefined(AzureBlobFileListSource))
             {
                 writer.WritePropertyName("azureBlobFileListSource"u8);
-                writer.WriteObjectValue(AzureBlobFileListSource);
+                writer.WriteObjectValue<AzureBlobFileListContentSource>(AzureBlobFileListSource, options);
             }
             if (Optional.IsCollectionDefined(DocTypes))
             {
@@ -79,9 +78,19 @@ namespace Azure.AI.DocumentIntelligence
                 foreach (var item in DocTypes)
                 {
                     writer.WritePropertyName(item.Key);
-                    writer.WriteObjectValue(item.Value);
+                    writer.WriteObjectValue<DocumentTypeDetails>(item.Value, options);
                 }
                 writer.WriteEndObject();
+            }
+            if (Optional.IsCollectionDefined(Warnings))
+            {
+                writer.WritePropertyName("warnings"u8);
+                writer.WriteStartArray();
+                foreach (var item in Warnings)
+                {
+                    writer.WriteObjectValue<DocumentIntelligenceWarning>(item, options);
+                }
+                writer.WriteEndArray();
             }
             if (options.Format != "W" && _serializedAdditionalRawData != null)
             {
@@ -106,7 +115,7 @@ namespace Azure.AI.DocumentIntelligence
             var format = options.Format == "W" ? ((IPersistableModel<DocumentModelDetails>)this).GetFormatFromOptions(options) : options.Format;
             if (format != "J")
             {
-                throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support '{format}' format.");
+                throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support reading '{format}' format.");
             }
 
             using JsonDocument document = JsonDocument.ParseValue(ref reader);
@@ -131,6 +140,7 @@ namespace Azure.AI.DocumentIntelligence
             AzureBlobContentSource azureBlobSource = default;
             AzureBlobFileListContentSource azureBlobFileListSource = default;
             IReadOnlyDictionary<string, DocumentTypeDetails> docTypes = default;
+            IReadOnlyList<DocumentIntelligenceWarning> warnings = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> additionalPropertiesDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
@@ -219,6 +229,20 @@ namespace Azure.AI.DocumentIntelligence
                     docTypes = dictionary;
                     continue;
                 }
+                if (property.NameEquals("warnings"u8))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        continue;
+                    }
+                    List<DocumentIntelligenceWarning> array = new List<DocumentIntelligenceWarning>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DocumentIntelligenceWarning.DeserializeDocumentIntelligenceWarning(item, options));
+                    }
+                    warnings = array;
+                    continue;
+                }
                 if (options.Format != "W")
                 {
                     additionalPropertiesDictionary.Add(property.Name, BinaryData.FromString(property.Value.GetRawText()));
@@ -236,6 +260,7 @@ namespace Azure.AI.DocumentIntelligence
                 azureBlobSource,
                 azureBlobFileListSource,
                 docTypes ?? new ChangeTrackingDictionary<string, DocumentTypeDetails>(),
+                warnings ?? new ChangeTrackingList<DocumentIntelligenceWarning>(),
                 serializedAdditionalRawData);
         }
 
@@ -248,7 +273,7 @@ namespace Azure.AI.DocumentIntelligence
                 case "J":
                     return ModelReaderWriter.Write(this, options);
                 default:
-                    throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support writing '{options.Format}' format.");
             }
         }
 
@@ -264,7 +289,7 @@ namespace Azure.AI.DocumentIntelligence
                         return DeserializeDocumentModelDetails(document.RootElement, options);
                     }
                 default:
-                    throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support '{options.Format}' format.");
+                    throw new FormatException($"The model {nameof(DocumentModelDetails)} does not support reading '{options.Format}' format.");
             }
         }
 
@@ -282,7 +307,7 @@ namespace Azure.AI.DocumentIntelligence
         internal virtual RequestContent ToRequestContent()
         {
             var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(this);
+            content.JsonWriter.WriteObjectValue<DocumentModelDetails>(this, new ModelReaderWriterOptions("W"));
             return content;
         }
     }

@@ -12,10 +12,8 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Autorest.CSharp.Core;
-using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.ResourceManager;
 
 namespace Azure.ResourceManager.Batch
 {
@@ -82,18 +80,8 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> or <paramref name="data"/> is null. </exception>
         public virtual async Task<ArmOperation<BatchApplicationResource>> CreateOrUpdateAsync(WaitUntil waitUntil, string applicationName, BatchApplicationData data, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
+            Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.CreateOrUpdate");
             scope.Start();
@@ -141,18 +129,8 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> or <paramref name="data"/> is null. </exception>
         public virtual ArmOperation<BatchApplicationResource> CreateOrUpdate(WaitUntil waitUntil, string applicationName, BatchApplicationData data, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
+            Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.CreateOrUpdate");
             scope.Start();
@@ -198,14 +176,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> is null. </exception>
         public virtual async Task<Response<BatchApplicationResource>> GetAsync(string applicationName, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.Get");
             scope.Start();
@@ -250,14 +221,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> is null. </exception>
         public virtual Response<BatchApplicationResource> Get(string applicationName, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.Get");
             scope.Start();
@@ -364,14 +328,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> is null. </exception>
         public virtual async Task<Response<bool>> ExistsAsync(string applicationName, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.Exists");
             scope.Start();
@@ -414,14 +371,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> is null. </exception>
         public virtual Response<bool> Exists(string applicationName, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.Exists");
             scope.Start();
@@ -464,14 +414,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> is null. </exception>
         public virtual async Task<NullableResponse<BatchApplicationResource>> GetIfExistsAsync(string applicationName, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.GetIfExists");
             scope.Start();
@@ -516,14 +459,7 @@ namespace Azure.ResourceManager.Batch
         /// <exception cref="ArgumentNullException"> <paramref name="applicationName"/> is null. </exception>
         public virtual NullableResponse<BatchApplicationResource> GetIfExists(string applicationName, CancellationToken cancellationToken = default)
         {
-            if (applicationName == null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-            if (applicationName.Length == 0)
-            {
-                throw new ArgumentException("Value cannot be an empty string.", nameof(applicationName));
-            }
+            Argument.AssertNotNullOrEmpty(applicationName, nameof(applicationName));
 
             using var scope = _batchApplicationApplicationClientDiagnostics.CreateScope("BatchApplicationCollection.GetIfExists");
             scope.Start();

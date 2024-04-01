@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using Azure.Core;
-using Azure.ResourceManager.RecoveryServicesBackup;
 
 namespace Azure.ResourceManager.RecoveryServicesBackup.Models
 {
@@ -55,14 +54,8 @@ namespace Azure.ResourceManager.RecoveryServicesBackup.Models
         /// <exception cref="ArgumentNullException"> <paramref name="sourceResourceId"/> or <paramref name="correlationId"/> is null. </exception>
         public TriggerDataMoveContent(ResourceIdentifier sourceResourceId, AzureLocation sourceRegion, DataMoveLevel dataMoveLevel, string correlationId)
         {
-            if (sourceResourceId == null)
-            {
-                throw new ArgumentNullException(nameof(sourceResourceId));
-            }
-            if (correlationId == null)
-            {
-                throw new ArgumentNullException(nameof(correlationId));
-            }
+            Argument.AssertNotNull(sourceResourceId, nameof(sourceResourceId));
+            Argument.AssertNotNull(correlationId, nameof(correlationId));
 
             SourceResourceId = sourceResourceId;
             SourceRegion = sourceRegion;

@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using Azure.Core;
-using Azure.ResourceManager.Cdn;
 using Azure.ResourceManager.Resources.Models;
 
 namespace Azure.ResourceManager.Cdn.Models
@@ -21,10 +20,7 @@ namespace Azure.ResourceManager.Cdn.Models
         /// <exception cref="ArgumentNullException"> <paramref name="secretSource"/> is null. </exception>
         public CustomerCertificateProperties(WritableSubResource secretSource)
         {
-            if (secretSource == null)
-            {
-                throw new ArgumentNullException(nameof(secretSource));
-            }
+            Argument.AssertNotNull(secretSource, nameof(secretSource));
 
             SecretSource = secretSource;
             SubjectAlternativeNames = new ChangeTrackingList<string>();

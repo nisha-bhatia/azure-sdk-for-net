@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using Azure.Core;
-using Azure.ResourceManager.MobileNetwork;
 using Azure.ResourceManager.Resources.Models;
 
 namespace Azure.ResourceManager.MobileNetwork.Models
@@ -54,14 +53,8 @@ namespace Azure.ResourceManager.MobileNetwork.Models
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="internationalMobileSubscriberIdentity"/> is null. </exception>
         public SimNameAndProperties(string name, string internationalMobileSubscriberIdentity)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-            if (internationalMobileSubscriberIdentity == null)
-            {
-                throw new ArgumentNullException(nameof(internationalMobileSubscriberIdentity));
-            }
+            Argument.AssertNotNull(name, nameof(name));
+            Argument.AssertNotNull(internationalMobileSubscriberIdentity, nameof(internationalMobileSubscriberIdentity));
 
             Name = name;
             SiteProvisioningState = new ChangeTrackingDictionary<string, MobileNetworkSiteProvisioningState>();

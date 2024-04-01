@@ -9,10 +9,8 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
-using Azure.ResourceManager;
 using Azure.ResourceManager.Resources;
 using Azure.ResourceManager.Support.Models;
 
@@ -339,10 +337,7 @@ namespace Azure.ResourceManager.Support
         /// <exception cref="ArgumentNullException"> <paramref name="updateSupportTicket"/> is null. </exception>
         public virtual async Task<Response<SubscriptionSupportTicketResource>> UpdateAsync(UpdateSupportTicket updateSupportTicket, CancellationToken cancellationToken = default)
         {
-            if (updateSupportTicket == null)
-            {
-                throw new ArgumentNullException(nameof(updateSupportTicket));
-            }
+            Argument.AssertNotNull(updateSupportTicket, nameof(updateSupportTicket));
 
             using var scope = _subscriptionSupportTicketSupportTicketsClientDiagnostics.CreateScope("SubscriptionSupportTicketResource.Update");
             scope.Start();
@@ -384,10 +379,7 @@ namespace Azure.ResourceManager.Support
         /// <exception cref="ArgumentNullException"> <paramref name="updateSupportTicket"/> is null. </exception>
         public virtual Response<SubscriptionSupportTicketResource> Update(UpdateSupportTicket updateSupportTicket, CancellationToken cancellationToken = default)
         {
-            if (updateSupportTicket == null)
-            {
-                throw new ArgumentNullException(nameof(updateSupportTicket));
-            }
+            Argument.AssertNotNull(updateSupportTicket, nameof(updateSupportTicket));
 
             using var scope = _subscriptionSupportTicketSupportTicketsClientDiagnostics.CreateScope("SubscriptionSupportTicketResource.Update");
             scope.Start();
@@ -429,10 +421,7 @@ namespace Azure.ResourceManager.Support
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         public virtual async Task<Response<SupportNameAvailabilityResult>> CheckCommunicationNameAvailabilityAsync(SupportNameAvailabilityContent content, CancellationToken cancellationToken = default)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Argument.AssertNotNull(content, nameof(content));
 
             using var scope = _supportTicketCommunicationCommunicationsClientDiagnostics.CreateScope("SubscriptionSupportTicketResource.CheckCommunicationNameAvailability");
             scope.Start();
@@ -474,10 +463,7 @@ namespace Azure.ResourceManager.Support
         /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
         public virtual Response<SupportNameAvailabilityResult> CheckCommunicationNameAvailability(SupportNameAvailabilityContent content, CancellationToken cancellationToken = default)
         {
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Argument.AssertNotNull(content, nameof(content));
 
             using var scope = _supportTicketCommunicationCommunicationsClientDiagnostics.CreateScope("SubscriptionSupportTicketResource.CheckCommunicationNameAvailability");
             scope.Start();
