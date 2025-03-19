@@ -87,4 +87,11 @@
 		</Compile>
 	</ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\typespec\packages\http-client-csharp\generator\Microsoft.TypeSpec.Generator.Analyzer\Microsoft.TypeSpec.Generator.Analyzer.csproj">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
 </Project>
